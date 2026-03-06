@@ -280,6 +280,11 @@ General Information
 <span class="info-value">${inspection.sampleSize}</span>
 </div>
 
+<div class="info-item">
+<span class="info-label">Batch Number</span>
+<span class="info-value">${inspection.batchNumber || '—'}</span>
+</div>
+
 </div>
 
 </div>

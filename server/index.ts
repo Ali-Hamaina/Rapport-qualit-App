@@ -18,10 +18,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3011;
+const PORT = parseInt(process.env.PORT || '3011', 10);
 
 // Ensure uploads directory exists
-const UPLOADS_DIR = path.resolve(__dirname, '..', 'public', 'uploads');
+// In production on Render, use a persistent disk mount (e.g. /opt/render/uploads)
+const UPLOADS_DIR = process.env.UPLOADS_DIR
+  ? path.resolve(process.env.UPLOADS_DIR)
+  : path.resolve(__dirname, '..', 'public', 'uploads');
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
@@ -158,8 +161,18 @@ app.delete('/api/inspections/:id/photos', (req, res) => {
   }
 });
 
+// In production, serve the Vite frontend build
+const distPath = path.resolve(__dirname, '..', 'dist');
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+  // SPA fallback: serve index.html for all non-API routes
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`✓ API server running on http://localhost:${PORT}`);
   console.log(`  Uploads dir: ${UPLOADS_DIR}`);
 });

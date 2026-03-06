@@ -34,6 +34,7 @@ export interface Inspection {
   qualityScore?: number;
   sampleSize?: number;
   lotNumber?: string;
+  batchNumber?: string;
   facility?: string;
   // Section 1 extra fields
   controlPointName?: string;

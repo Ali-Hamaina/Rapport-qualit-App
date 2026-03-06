@@ -165,7 +165,10 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
                 <InfoRow icon={<MapPin className="size-4" />} label="Établissement" value={inspection.facility} />
               )}
               {inspection.lotNumber && (
-                <InfoRow icon={<Package className="size-4" />} label="N° de lot" value={inspection.lotNumber} />
+                <InfoRow icon={<Package className="size-4" />} label="Batch Number" value={inspection.lotNumber} />
+              )}
+              {inspection.batchNumber && (
+                <InfoRow icon={<Package className="size-4" />} label="Batch Number" value={inspection.batchNumber} />
               )}
               {inspection.controlPointName && (
                 <InfoRow icon={<MapPin className="size-4" />} label="Point de contrôle" value={inspection.controlPointName} />

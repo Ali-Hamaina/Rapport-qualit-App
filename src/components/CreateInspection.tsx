@@ -27,6 +27,7 @@ interface FormData {
   status: string;
   sampleSize: string;
   lotNumber: string;
+  batchNumber: string;
 }
 
 interface CreateInspectionProps {
@@ -60,6 +61,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
     status: '',
     sampleSize: '',
     lotNumber: '',
+    batchNumber: '',
   });
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
@@ -81,6 +83,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
         status: existingInspection.status || '',
         sampleSize: existingInspection.sampleSize?.toString() || '',
         lotNumber: existingInspection.lotNumber || '',
+        batchNumber: existingInspection.batchNumber || '',
       });
     }
   }, [isEditMode, existingInspection]);
@@ -116,6 +119,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
       facility: formData.facility,
       sampleSize: formData.sampleSize ? parseInt(formData.sampleSize) : 100,
       lotNumber: formData.lotNumber,
+      batchNumber: formData.batchNumber,
       controlPointName: formData.controlPointName,
       packDate: formData.packDate,
       inspectionTime: formData.inspectionTime,
@@ -302,6 +306,13 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
             onChange={(e) => handleChange('sampleTime', e.target.value)}
           />
 
+          <Input
+            label="Batch Number"
+            value={formData.batchNumber}
+            onChange={(e) => handleChange('batchNumber', e.target.value)}
+            placeholder="ex: BN-2023-001"
+          />
+
           {/* Additional fields for edit mode */}
           {isEditMode && (
             <>
@@ -318,7 +329,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
               />
 
               <Input
-                label="N° de Lot"
+                label="Batch Number"
                 value={formData.lotNumber}
                 onChange={(e) => handleChange('lotNumber', e.target.value)}
                 placeholder="ex: V-OR-2023-X92"

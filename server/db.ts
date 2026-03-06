@@ -5,13 +5,22 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DB_PATH = path.resolve(__dirname, '..', 'data.db');
+const DB_PATH = process.env.UPLOADS_DIR
+  ? path.resolve(process.env.UPLOADS_DIR, 'data.db')
+  : path.resolve(__dirname, '..', 'data.db');
 
 const db = new Database(DB_PATH);
 
 // Enable WAL mode for better concurrent read performance
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
+
+// Migrate: add batchNumber column if missing
+try {
+  db.exec(`ALTER TABLE inspections ADD COLUMN batchNumber TEXT DEFAULT ''`);
+} catch (_) {
+  // Column already exists
+}
 
 // Create tables
 db.exec(`
@@ -27,6 +36,7 @@ db.exec(`
     qualityScore INTEGER,
     sampleSize INTEGER,
     lotNumber TEXT DEFAULT '',
+    batchNumber TEXT DEFAULT '',
     facility TEXT DEFAULT '',
     controlPointName TEXT DEFAULT '',
     packDate TEXT DEFAULT '',
@@ -84,11 +94,11 @@ db.exec(`
 const insertInspection = db.prepare(`
   INSERT INTO inspections (
     id, variety, commodity, grower, inspector, date, status, image,
-    qualityScore, sampleSize, lotNumber, facility, controlPointName,
+    qualityScore, sampleSize, lotNumber, batchNumber, facility, controlPointName,
     packDate, inspectionTime, sampleTime, inspectionSampleSize, updatedAt
   ) VALUES (
     @id, @variety, @commodity, @grower, @inspector, @date, @status, @image,
-    @qualityScore, @sampleSize, @lotNumber, @facility, @controlPointName,
+    @qualityScore, @sampleSize, @lotNumber, @batchNumber, @facility, @controlPointName,
     @packDate, @inspectionTime, @sampleTime, @inspectionSampleSize, datetime('now')
   )
   ON CONFLICT(id) DO UPDATE SET
@@ -102,6 +112,7 @@ const insertInspection = db.prepare(`
     qualityScore = excluded.qualityScore,
     sampleSize = excluded.sampleSize,
     lotNumber = excluded.lotNumber,
+    batchNumber = excluded.batchNumber,
     facility = excluded.facility,
     controlPointName = excluded.controlPointName,
     packDate = excluded.packDate,
@@ -157,6 +168,7 @@ export interface InspectionRow {
   qualityScore: number | null;
   sampleSize: number | null;
   lotNumber: string;
+  batchNumber: string;
   facility: string;
   controlPointName: string;
   packDate: string;
@@ -220,6 +232,7 @@ export const dbSaveInspection = db.transaction((data: any) => {
     qualityScore: data.qualityScore ?? null,
     sampleSize: data.sampleSize ?? null,
     lotNumber: data.lotNumber || '',
+    batchNumber: data.batchNumber || '',
     facility: data.facility || '',
     controlPointName: data.controlPointName || '',
     packDate: data.packDate || '',
