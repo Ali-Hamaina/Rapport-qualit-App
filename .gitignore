@@ -1,0 +1,20 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Database
+*.db
+*.sqlite
+
+# Editor directories
+.vscode/
+.idea/
+
+# Uploads (if you don't want to commit user uploads)
+# public/uploads/*
+# !public/uploads/.gitkeep

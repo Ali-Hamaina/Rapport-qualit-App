@@ -1,0 +1,226 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #f49d25;
+  --color-success: #2d6a4f;
+  --color-background-light: #f8f7f5;
+  --color-background-dark: #1a1612;
+  
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+}
+
+@layer base {
+  * {
+    @apply border-slate-200;
+  }
+  
+  body {
+    @apply bg-background-light font-sans text-slate-900 antialiased;
+  }
+  
+  /* Improve focus visibility for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary/50 ring-offset-2;
+  }
+  
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-100;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full hover:bg-slate-400;
+  }
+}
+
+@layer utilities {
+  /* Glass morphism effect */
+  .glass-sidebar {
+    @apply backdrop-blur-xl border-r border-white/20 bg-white/70;
+  }
+  
+  .glass-card {
+    @apply backdrop-blur-lg bg-white/80 border border-white/20;
+  }
+  
+  /* Card shadow with primary color */
+  .card-shadow {
+    box-shadow: 0 10px 25px -5px rgba(244, 157, 37, 0.1), 
+                0 8px 10px -6px rgba(244, 157, 37, 0.05);
+  }
+  
+  .card-shadow-hover {
+    box-shadow: 0 20px 35px -5px rgba(244, 157, 37, 0.15), 
+                0 12px 15px -6px rgba(244, 157, 37, 0.08);
+  }
+  
+  /* Gradient backgrounds */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #f49d25 0%, #f4a847 100%);
+  }
+  
+  .bg-gradient-success {
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  }
+  
+  .bg-gradient-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  }
+  
+  /* Text gradients */
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #f49d25 0%, #f4a847 100%);
+  }
+  
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Utility for truncating text on multiple lines */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Print styles — fallback if user presses Ctrl+P on the app itself */
+@media print {
+  .no-print,
+  aside,
+  header,
+  nav,
+  button,
+  .glass-sidebar,
+  [data-no-print] {
+    display: none !important;
+  }
+  
+  body {
+    background: #fff !important;
+    color: #1e293b !important;
+    font-size: 12px !important;
+  }
+  
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  table {
+    page-break-inside: avoid;
+  }
+
+  @page {
+    margin: 15mm 10mm;
+    size: A4;
+  }
+}
+
+/* Responsive typography improvements */
+@layer base {
+  h1 {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+  
+  h2 {
+    @apply text-2xl md:text-3xl font-bold tracking-tight;
+  }
+  
+  h3 {
+    @apply text-xl md:text-2xl font-bold;
+  }
+  
+  h4 {
+    @apply text-lg md:text-xl font-bold;
+  }
+}
+
