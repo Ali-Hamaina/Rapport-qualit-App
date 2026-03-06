@@ -86,7 +86,7 @@ export const InspectionsList: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tight">
             Inspections
           </h1>
           <p className="text-slate-500 text-sm mt-1">
@@ -102,41 +102,41 @@ export const InspectionsList: React.FC = () => {
       </div>
 
       {/* Quick Stats Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <div className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center gap-3">
-          <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
-            <ClipboardCheck className="size-5 text-primary" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-6">
+        <div className="bg-white rounded-xl border border-slate-200 px-3 md:px-4 py-2 md:py-3 flex items-center gap-2 md:gap-3">
+          <div className="size-8 md:size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <ClipboardCheck className="size-4 md:size-5 text-primary" />
           </div>
           <div>
-            <p className="text-xs text-slate-500 font-medium">Total</p>
-            <p className="text-lg font-bold text-slate-900">{totalCount}</p>
+            <p className="text-[10px] md:text-xs text-slate-500 font-medium">Total</p>
+            <p className="text-base md:text-lg font-bold text-slate-900">{totalCount}</p>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center gap-3">
-          <div className="size-10 rounded-lg bg-emerald-50 flex items-center justify-center">
-            <div className="size-3 rounded-full bg-emerald-500" />
+        <div className="bg-white rounded-xl border border-slate-200 px-3 md:px-4 py-2 md:py-3 flex items-center gap-2 md:gap-3">
+          <div className="size-8 md:size-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+            <div className="size-2.5 md:size-3 rounded-full bg-emerald-500" />
           </div>
           <div>
-            <p className="text-xs text-slate-500 font-medium">Accepté</p>
-            <p className="text-lg font-bold text-emerald-600">{acceptedCount}</p>
+            <p className="text-[10px] md:text-xs text-slate-500 font-medium">Accepté</p>
+            <p className="text-base md:text-lg font-bold text-emerald-600">{acceptedCount}</p>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center gap-3">
-          <div className="size-10 rounded-lg bg-amber-50 flex items-center justify-center">
-            <div className="size-3 rounded-full bg-amber-500" />
+        <div className="bg-white rounded-xl border border-slate-200 px-3 md:px-4 py-2 md:py-3 flex items-center gap-2 md:gap-3">
+          <div className="size-8 md:size-10 rounded-lg bg-amber-50 flex items-center justify-center">
+            <div className="size-2.5 md:size-3 rounded-full bg-amber-500" />
           </div>
           <div>
-            <p className="text-xs text-slate-500 font-medium">Alerte</p>
-            <p className="text-lg font-bold text-amber-600">{warningCount}</p>
+            <p className="text-[10px] md:text-xs text-slate-500 font-medium">Alerte</p>
+            <p className="text-base md:text-lg font-bold text-amber-600">{warningCount}</p>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center gap-3">
-          <div className="size-10 rounded-lg bg-red-50 flex items-center justify-center">
-            <div className="size-3 rounded-full bg-red-500" />
+        <div className="bg-white rounded-xl border border-slate-200 px-3 md:px-4 py-2 md:py-3 flex items-center gap-2 md:gap-3">
+          <div className="size-8 md:size-10 rounded-lg bg-red-50 flex items-center justify-center">
+            <div className="size-2.5 md:size-3 rounded-full bg-red-500" />
           </div>
           <div>
-            <p className="text-xs text-slate-500 font-medium">Rejeté</p>
-            <p className="text-lg font-bold text-red-600">{rejectedCount}</p>
+            <p className="text-[10px] md:text-xs text-slate-500 font-medium">Rejeté</p>
+            <p className="text-base md:text-lg font-bold text-red-600">{rejectedCount}</p>
           </div>
         </div>
       </div>
@@ -205,7 +205,7 @@ export const InspectionsList: React.FC = () => {
       </p>
 
       {/* Inspection Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
         {paginatedItems.length > 0 ? (
           paginatedItems.map((inspection) => (
             <InspectionListCard

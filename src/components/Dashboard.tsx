@@ -64,7 +64,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectInspection }) => {
   return (
     <div className="space-y-8">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
         {loading ? (
           <>
             {[...Array(4)].map((_, i) => <StatCardSkeleton key={i} />)}
@@ -208,7 +208,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectInspection }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
           {loading ? (
             <>
               {[...Array(6)].map((_, i) => <InspectionCardSkeleton key={i} />)}
@@ -297,18 +297,18 @@ const StatCard: React.FC<{
 
   return (
     <Card className="relative overflow-hidden group">
-      <div className={cn("absolute -right-4 -top-4 size-24 rounded-full group-hover:scale-110 transition-transform", bgClasses[color as keyof typeof bgClasses])} />
+      <div className={cn("absolute -right-4 -top-4 size-16 md:size-24 rounded-full group-hover:scale-110 transition-transform", bgClasses[color as keyof typeof bgClasses])} />
       <div>
-        <p className="text-slate-500 text-sm font-medium">{title}</p>
-        <h3 className={cn("text-3xl font-bold mt-1", colorClasses[color as keyof typeof colorClasses])}>{value}</h3>
+        <p className="text-slate-500 text-xs md:text-sm font-medium">{title}</p>
+        <h3 className={cn("text-xl md:text-3xl font-bold mt-1", colorClasses[color as keyof typeof colorClasses])}>{value}</h3>
       </div>
-      <div className={cn("mt-4 flex items-center gap-2", 
+      <div className={cn("mt-2 md:mt-4 flex items-center gap-1 md:gap-2", 
         color === 'primary' ? "text-emerald-500" : 
         color === 'emerald' ? "text-emerald-500" :
         color === 'amber' ? "text-amber-500" : "text-rose-500"
       )}>
         {trendIcon}
-        <span className="text-xs font-bold">{trend}</span>
+        <span className="text-[10px] md:text-xs font-bold">{trend}</span>
       </div>
     </Card>
   );

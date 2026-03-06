@@ -40,10 +40,10 @@ function AppContent() {
     <div className="min-h-screen bg-background-light">
       <Sidebar />
       
-      <div className={`flex flex-col min-h-screen transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
+      <div className={`flex flex-col min-h-screen transition-all duration-300 ${sidebarCollapsed ? 'md:ml-20' : 'md:ml-64'}`}>
         <Header />
         
-        <main className="flex-1 p-4 md:p-8">
+        <main className="flex-1 p-3 md:p-6 lg:p-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentView + (selectedInspectionId || '')}
@@ -57,13 +57,13 @@ function AppContent() {
           </AnimatePresence>
         </main>
 
-        <footer className="border-t border-slate-200 py-6 px-6 md:px-10">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-xs">
+        <footer className="border-t border-slate-200 py-4 md:py-6 px-4 md:px-10">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 text-slate-400 text-xs">
             <p>© 2026 CitrusQC Pro. Tous droits réservés.</p>
-            <div className="flex gap-6">
+            <div className="flex gap-4 md:gap-6">
               <button className="hover:text-primary transition-colors">Documentation</button>
-              <button className="hover:text-primary transition-colors">Portail d'assistance</button>
-              <button className="hover:text-primary transition-colors">Logs d'exportation</button>
+              <button className="hover:text-primary transition-colors">Assistance</button>
+              <button className="hover:text-primary transition-colors">Logs</button>
             </div>
           </div>
         </footer>

@@ -241,7 +241,7 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto pb-20">
+    <div className="max-w-6xl mx-auto pb-12 md:pb-20">
       {/* Back button */}
       <button
         onClick={() => setCurrentView(isEditMode ? 'inspections' : 'create')}
@@ -258,7 +258,7 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
             <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center">
               <ClipboardList className="size-5 text-primary" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tight">
               Section 2 : Analyse des défauts
             </h2>
           </div>
@@ -269,19 +269,19 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
       </div>
 
       {/* Sample Size - styled like Section 1 form card */}
-      <Card padding="none" className="overflow-hidden mb-8">
-        <div className="bg-linear-to-r from-primary/5 to-transparent p-6 md:p-8 border-b border-slate-100">
+      <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
+        <div className="bg-linear-to-r from-primary/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <Info className="size-5 text-primary" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Taille de l'échantillon</h3>
+              <h3 className="text-base md:text-lg font-bold text-slate-900">Taille de l'échantillon</h3>
               <p className="text-xs text-slate-500">Nombre total d'unités inspectées</p>
             </div>
           </div>
         </div>
-        <div className="p-6 md:p-8">
+        <div className="p-4 md:p-8">
           <Input
             label="Sample Size"
             type="number"
@@ -294,8 +294,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
       </Card>
 
       {/* Serious Defects - styled like Section 1 form card */}
-      <Card padding="none" className="overflow-hidden mb-8">
-        <div className="bg-linear-to-r from-red-500/5 to-transparent p-6 md:p-8 border-b border-slate-100">
+      <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
+        <div className="bg-linear-to-r from-red-500/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className="size-9 rounded-lg bg-red-50 flex items-center justify-center">
               <AlertTriangle className="size-5 text-red-500" />
@@ -317,8 +317,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
               />
             ))}
           </div>
-          <div className="mt-6 pt-6 border-t border-slate-200 flex justify-between items-center bg-red-50 rounded-lg p-4">
-            <span className="font-bold text-slate-900">Total Serious Defects</span>
+          <div className="mt-6 pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-red-50 rounded-lg p-3 md:p-4">
+            <span className="font-bold text-slate-900 text-sm md:text-base">Total Serious Defects</span>
             <div className="flex items-center gap-4">
               <span className="font-bold text-slate-900">{totalSeriousDefects}</span>
               <Badge variant="danger" size="lg">
@@ -330,8 +330,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
       </Card>
 
       {/* Non-Serious Defects - styled like Section 1 form card */}
-      <Card padding="none" className="overflow-hidden mb-8">
-        <div className="bg-linear-to-r from-amber-500/5 to-transparent p-6 md:p-8 border-b border-slate-100">
+      <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
+        <div className="bg-linear-to-r from-amber-500/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="size-9 rounded-lg bg-amber-50 flex items-center justify-center">
@@ -393,8 +393,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
             </div>
           )}
           
-          <div className="mt-6 pt-6 border-t border-slate-200 flex justify-between items-center bg-amber-50 rounded-lg p-4">
-            <span className="font-bold text-slate-900">Total Non-Serious Defects</span>
+          <div className="mt-6 pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-amber-50 rounded-lg p-3 md:p-4">
+            <span className="font-bold text-slate-900 text-sm md:text-base">Total Non-Serious Defects</span>
             <div className="flex items-center gap-4">
               <span className="font-bold text-slate-900">{totalNonSeriousDefects}</span>
               <Badge variant="warning" size="lg">
@@ -403,8 +403,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
             </div>
           </div>
           
-          <div className="mt-4 flex justify-between items-center bg-slate-100 rounded-lg p-4">
-            <span className="font-bold text-lg text-slate-900">Total Defects</span>
+          <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-slate-100 rounded-lg p-3 md:p-4">
+            <span className="font-bold text-base md:text-lg text-slate-900">Total Defects</span>
             <div className="flex items-center gap-4">
               <span className="font-bold text-lg text-slate-900">{totalDefects}</span>
               <Badge variant={totalPercentage > 15 ? 'danger' : totalPercentage > 5 ? 'warning' : 'success'} size="lg">
@@ -416,8 +416,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
       </Card>
 
       {/* Samples Section - styled like Section 1 form card */}
-      <Card padding="none" className="overflow-hidden mb-8">
-        <div className="bg-linear-to-r from-primary/5 to-transparent p-6 md:p-8 border-b border-slate-100">
+      <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
+        <div className="bg-linear-to-r from-primary/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -455,8 +455,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
       </Card>
 
       {/* Photos Section - styled like Section 1 form card */}
-      <Card padding="none" className="overflow-hidden mb-8">
-        <div className="bg-linear-to-r from-primary/5 to-transparent p-6 md:p-8 border-b border-slate-100">
+      <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
+        <div className="bg-linear-to-r from-primary/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <Camera className="size-5 text-primary" />
@@ -467,8 +467,8 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
             </div>
           </div>
         </div>
-        <div className="p-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="p-4 md:p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
             <label className="col-span-2 aspect-square border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center bg-slate-50 hover:border-primary transition-colors cursor-pointer p-4">
               <input
                 type="file"
@@ -528,34 +528,36 @@ const DefectRow: React.FC<{
   onRemove?: () => void;
 }> = ({ defect, sampleSize, onChange, onRemove }) => {
   return (
-    <div className="grid grid-cols-12 gap-4 items-center bg-slate-50 rounded-lg p-3">
-      <div className="col-span-12 sm:col-span-5 font-semibold text-slate-900">
+    <div className="flex flex-col sm:grid sm:grid-cols-12 gap-2 sm:gap-4 items-start sm:items-center bg-slate-50 rounded-lg p-3">
+      <div className="sm:col-span-5 font-semibold text-slate-900 text-sm">
         {defect.name}
       </div>
-      <div className="col-span-6 sm:col-span-3">
-        <Input
-          type="number"
-          value={defect.units.toString()}
-          onChange={(e) => onChange(parseInt(e.target.value) || 0)}
-          min="0"
-          className="text-center"
-        />
-      </div>
-      <div className="col-span-4 sm:col-span-3 text-right">
-        <Badge variant={defect.percentage > 10 ? 'danger' : defect.percentage > 5 ? 'warning' : 'success'}>
-          {defect.percentage.toFixed(2)}%
-        </Badge>
-      </div>
-      {onRemove && (
-        <div className="col-span-2 sm:col-span-1">
-          <button
-            onClick={onRemove}
-            className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-          >
-            <Trash2 className="size-4" />
-          </button>
+      <div className="flex items-center gap-3 sm:contents w-full">
+        <div className="flex-1 sm:col-span-3">
+          <Input
+            type="number"
+            value={defect.units.toString()}
+            onChange={(e) => onChange(parseInt(e.target.value) || 0)}
+            min="0"
+            className="text-center"
+          />
         </div>
-      )}
+        <div className="sm:col-span-3 text-right">
+          <Badge variant={defect.percentage > 10 ? 'danger' : defect.percentage > 5 ? 'warning' : 'success'}>
+            {defect.percentage.toFixed(2)}%
+          </Badge>
+        </div>
+        {onRemove && (
+          <div className="sm:col-span-1">
+            <button
+              onClick={onRemove}
+              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+            >
+              <Trash2 className="size-4" />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

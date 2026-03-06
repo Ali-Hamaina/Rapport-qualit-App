@@ -163,7 +163,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
   };
 
   return (
-    <div className="max-w-5xl mx-auto pb-20">
+    <div className="max-w-5xl mx-auto pb-12 md:pb-20">
       {/* Back button */}
       <button
         onClick={() => setCurrentView(isEditMode ? 'inspections' : 'dashboard')}
@@ -186,7 +186,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
                 <CheckCircle2 className="size-5 text-primary" />
               </div>
             )}
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tight">
               {isEditMode ? 'Modifier l\'inspection' : 'Nouvelle inspection'}
             </h2>
           </div>
@@ -209,7 +209,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
 
       {/* Form Card */}
       <Card padding="none" className="overflow-hidden">
-        <div className="bg-linear-to-r from-primary/5 to-transparent p-6 md:p-8 border-b border-slate-100">
+        <div className="bg-linear-to-r from-primary/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <Info className="size-5 text-primary" />
@@ -225,7 +225,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
           </div>
         </div>
 
-        <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div className="p-4 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 md:gap-y-6">
           <Input
             label="Commodity Name"
             required
@@ -348,7 +348,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
         </div>
 
         {/* Action Bar */}
-        <div className="p-6 md:p-8 bg-slate-50/80 border-t border-slate-100 flex flex-col sm:flex-row gap-3 sm:justify-between">
+        <div className="p-4 md:p-8 bg-slate-50/80 border-t border-slate-100 flex flex-col sm:flex-row gap-3 sm:justify-between">
           <Button
             variant="ghost"
             onClick={() => setCurrentView(isEditMode ? 'inspections' : 'dashboard')}

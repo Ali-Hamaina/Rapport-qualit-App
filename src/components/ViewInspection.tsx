@@ -84,7 +84,7 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
   const totalPercentage = totalSeriousPercentage + totalNonSeriousPercentage;
 
   return (
-    <div className="max-w-5xl mx-auto pb-20">
+    <div className="max-w-5xl mx-auto pb-12 md:pb-20">
       {/* Back + Actions */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <button
@@ -105,22 +105,22 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
       </div>
 
       {/* Hero Section */}
-      <div className="relative rounded-2xl overflow-hidden mb-8">
+      <div className="relative rounded-xl md:rounded-2xl overflow-hidden mb-6 md:mb-8">
         <img
           src={inspection.image}
           alt={inspection.variety}
-          className="w-full h-56 md:h-72 object-cover"
+          className="w-full h-40 md:h-72 object-cover"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-          <div className="flex items-end justify-between gap-4">
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 md:gap-4">
             <div>
-              <Badge variant={getStatusVariant(inspection.status)} size="lg" className="mb-3">
+              <Badge variant={getStatusVariant(inspection.status)} size="lg" className="mb-2 md:mb-3">
                 {getStatusIcon(inspection.status)}
                 <span className="ml-1">{inspection.status}</span>
               </Badge>
-              <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-1">
+              <h1 className="text-2xl md:text-4xl font-black text-white tracking-tight mb-1">
                 {inspection.commodity}
               </h1>
               <p className="text-white/80 text-sm">
@@ -144,15 +144,15 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
       </div>
 
       {/* ===== SECTION 1: Informations de base ===== */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Package className="size-5 text-primary" />
+      <div className="mb-6 md:mb-8">
+        <div className="flex items-center gap-3 mb-4 md:mb-6">
+          <div className="size-8 md:size-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Package className="size-4 md:size-5 text-primary" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900">Section 1 : Informations de base</h2>
+          <h2 className="text-xl md:text-2xl font-black text-slate-900">Section 1 : Informations de base</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* General Info */}
           <Card padding="none">
             <CardHeader title="Informations générales" icon={<Package className="size-5 text-primary" />} />
@@ -225,12 +225,12 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
       </div>
 
       {/* ===== SECTION 2: Analyse des défauts ===== */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <ClipboardList className="size-5 text-primary" />
+      <div className="mb-6 md:mb-8">
+        <div className="flex items-center gap-3 mb-4 md:mb-6">
+          <div className="size-8 md:size-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <ClipboardList className="size-4 md:size-5 text-primary" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900">Section 2 : Analyse des défauts</h2>
+          <h2 className="text-xl md:text-2xl font-black text-slate-900">Section 2 : Analyse des défauts</h2>
         </div>
 
         {/* Sample Size */}
@@ -263,19 +263,21 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
             <div className="p-6">
               <div className="space-y-3">
                 {inspection.seriousDefects.map((defect) => (
-                  <div key={defect.id} className="grid grid-cols-12 gap-4 items-center bg-slate-50 rounded-lg p-3">
-                    <div className="col-span-6 font-semibold text-slate-900">{defect.name}</div>
-                    <div className="col-span-3 text-center font-bold text-slate-700">{defect.units}</div>
-                    <div className="col-span-3 text-right">
-                      <Badge variant={defect.percentage > 10 ? 'danger' : defect.percentage > 5 ? 'warning' : 'success'}>
-                        {defect.percentage.toFixed(2)}%
-                      </Badge>
+                  <div key={defect.id} className="flex flex-col sm:grid sm:grid-cols-12 gap-1 sm:gap-4 items-start sm:items-center bg-slate-50 rounded-lg p-3">
+                    <div className="sm:col-span-6 font-semibold text-slate-900 text-sm">{defect.name}</div>
+                    <div className="flex items-center gap-3 sm:contents w-full">
+                      <div className="sm:col-span-3 text-center font-bold text-slate-700">{defect.units}</div>
+                      <div className="sm:col-span-3 text-right">
+                        <Badge variant={defect.percentage > 10 ? 'danger' : defect.percentage > 5 ? 'warning' : 'success'}>
+                          {defect.percentage.toFixed(2)}%
+                        </Badge>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 flex justify-between items-center bg-red-50 rounded-lg p-4">
-                <span className="font-bold text-slate-900">Total Serious Defects</span>
+              <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-red-50 rounded-lg p-3 md:p-4">
+                <span className="font-bold text-slate-900 text-sm md:text-base">Total Serious Defects</span>
                 <div className="flex items-center gap-4">
                   <span className="font-bold text-slate-900">{totalSeriousDefects}</span>
                   <Badge variant="danger" size="lg">{totalSeriousPercentage.toFixed(2)}%</Badge>
@@ -302,26 +304,28 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
             <div className="p-6">
               <div className="space-y-3">
                 {inspection.nonSeriousDefects.map((defect) => (
-                  <div key={defect.id} className="grid grid-cols-12 gap-4 items-center bg-slate-50 rounded-lg p-3">
-                    <div className="col-span-6 font-semibold text-slate-900">{defect.name}</div>
-                    <div className="col-span-3 text-center font-bold text-slate-700">{defect.units}</div>
-                    <div className="col-span-3 text-right">
-                      <Badge variant={defect.percentage > 10 ? 'danger' : defect.percentage > 5 ? 'warning' : 'success'}>
-                        {defect.percentage.toFixed(2)}%
-                      </Badge>
+                  <div key={defect.id} className="flex flex-col sm:grid sm:grid-cols-12 gap-1 sm:gap-4 items-start sm:items-center bg-slate-50 rounded-lg p-3">
+                    <div className="sm:col-span-6 font-semibold text-slate-900 text-sm">{defect.name}</div>
+                    <div className="flex items-center gap-3 sm:contents w-full">
+                      <div className="sm:col-span-3 text-center font-bold text-slate-700">{defect.units}</div>
+                      <div className="sm:col-span-3 text-right">
+                        <Badge variant={defect.percentage > 10 ? 'danger' : defect.percentage > 5 ? 'warning' : 'success'}>
+                          {defect.percentage.toFixed(2)}%
+                        </Badge>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 flex justify-between items-center bg-amber-50 rounded-lg p-4">
-                <span className="font-bold text-slate-900">Total Non-Serious Defects</span>
+              <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-amber-50 rounded-lg p-3 md:p-4">
+                <span className="font-bold text-slate-900 text-sm md:text-base">Total Non-Serious Defects</span>
                 <div className="flex items-center gap-4">
                   <span className="font-bold text-slate-900">{totalNonSeriousDefects}</span>
                   <Badge variant="warning" size="lg">{totalNonSeriousPercentage.toFixed(2)}%</Badge>
                 </div>
               </div>
-              <div className="mt-4 flex justify-between items-center bg-slate-100 rounded-lg p-4">
-                <span className="font-bold text-lg text-slate-900">Total Defects</span>
+              <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-slate-100 rounded-lg p-3 md:p-4">
+                <span className="font-bold text-base md:text-lg text-slate-900">Total Defects</span>
                 <div className="flex items-center gap-4">
                   <span className="font-bold text-lg text-slate-900">{totalDefects}</span>
                   <Badge variant={totalPercentage > 15 ? 'danger' : totalPercentage > 5 ? 'warning' : 'success'} size="lg">
@@ -399,8 +403,8 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
                 </div>
               </div>
             </div>
-            <div className="p-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="p-4 md:p-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
                 {inspection.photos.map((photo, index) => (
                   <div key={index} className="aspect-square rounded-lg overflow-hidden border border-slate-200">
                     <img src={photo} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
@@ -422,18 +426,18 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
       </div>
 
       {/* Status Summary */}
-      <Card className="mb-8">
-        <div className="flex flex-col md:flex-row items-center gap-6">
+      <Card className="mb-6 md:mb-8">
+        <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
           <div className={cn(
-            "size-16 rounded-2xl flex items-center justify-center",
+            "size-12 md:size-16 rounded-2xl flex items-center justify-center shrink-0",
             inspection.status === 'Accepté' ? 'bg-emerald-50 text-emerald-600' :
             inspection.status === 'Avertissement' ? 'bg-amber-50 text-amber-600' :
             'bg-red-50 text-red-600'
           )}>
             {getStatusIcon(inspection.status)}
           </div>
-          <div className="flex-1 text-center md:text-left">
-            <h3 className="text-lg font-bold text-slate-900">
+          <div className="flex-1 text-center sm:text-left">
+            <h3 className="text-base md:text-lg font-bold text-slate-900">
               {inspection.status === 'Accepté' && 'Inspection validée - Qualité conforme'}
               {inspection.status === 'Avertissement' && 'Attention requise - Seuils limites atteints'}
               {inspection.status === 'Rejeté' && 'Inspection rejetée - Non conforme aux normes'}
@@ -451,7 +455,7 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
       </Card>
 
       {/* Bottom Actions */}
-      <div className="flex justify-center gap-3">
+      <div className="flex flex-col sm:flex-row justify-center gap-3">
         <Button
           variant="secondary"
           onClick={() => setCurrentView('inspections')}

@@ -18,6 +18,8 @@ interface AppContextType {
   toast: ReturnType<typeof useToast>;
   sidebarCollapsed: boolean;
   toggleSidebar: () => void;
+  mobileSidebarOpen: boolean;
+  setMobileSidebarOpen: (open: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -37,6 +39,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   });
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const toast = useToast();
 
   // Load from server on mount, fallback to localStorage
@@ -113,6 +116,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     toast,
     sidebarCollapsed,
     toggleSidebar,
+    mobileSidebarOpen,
+    setMobileSidebarOpen,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
