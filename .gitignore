@@ -9,6 +9,8 @@ coverage/
 
 # Database
 *.db
+*.db-shm
+*.db-wal
 *.sqlite
 
 # Editor directories
@@ -16,5 +18,5 @@ coverage/
 .idea/
 
 # Uploads (if you don't want to commit user uploads)
-# public/uploads/*
-# !public/uploads/.gitkeep
+public/uploads/*
+!public/uploads/.gitkeep
