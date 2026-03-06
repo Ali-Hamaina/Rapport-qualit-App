@@ -21,7 +21,6 @@ const app = express();
 const PORT = parseInt(process.env.PORT || '3011', 10);
 
 // Ensure uploads directory exists
-// In production on Render, use a persistent disk mount (e.g. /opt/render/uploads)
 const UPLOADS_DIR = process.env.UPLOADS_DIR
   ? path.resolve(process.env.UPLOADS_DIR)
   : path.resolve(__dirname, '..', 'public', 'uploads');
