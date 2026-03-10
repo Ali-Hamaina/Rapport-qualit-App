@@ -442,7 +442,7 @@ ${inspection.photos
 <div class="footer">
 
 <div>
-Generated ${inspection.facility}
+Generated  by ${inspection.facility}
 </div>
 
 <div>

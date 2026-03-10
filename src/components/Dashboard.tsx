@@ -115,32 +115,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectInspection }) => {
             </div>
           }
         />
-        <div className="h-64 w-full">
+        <div className="h-80 w-full mt-6">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={mockChartData}>
+            <AreaChart data={mockChartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorValue1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f49d25" stopOpacity={0.1}/>
+                  <stop offset="5%" stopColor="#f49d25" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#f49d25" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorValue2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-              <XAxis 
-                dataKey="name" 
-                axisLine={false} 
-                tickLine={false} 
-                tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }}
-                dy={10}
-              />
-              <Tooltip 
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-              />
-              <Area type="monotone" dataKey="value1" stroke="#f49d25" strokeWidth={3} fillOpacity={1} fill="url(#colorValue1)" />
-              <Area type="monotone" dataKey="value2" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorValue2)" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} />
+              <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', backgroundColor: '#fff' }} />
+              <Area type="monotone" dataKey="value1" stroke="#f49d25" strokeWidth={2} fillOpacity={1} fill="url(#colorValue1)" name="Défauts sérieux" />
+              <Area type="monotone" dataKey="value2" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorValue2)" name="Défauts mineurs" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -171,30 +163,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectInspection }) => {
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all outline-none"
               />
             </div>
-
-            {/* Variety Select */}
-            {/* <Select
-              options={[
-                { value: '', label: 'Toutes les variétés' },
-                ...CITRUS_VARIETIES.map(v => ({ value: v, label: v }))
-              ]}
-              value={filters.variety || ''}
-              onChange={(e) => updateFilters({ variety: e.target.value || undefined })}
-              className="w-full"
-            /> */}
-
-            {/* Status Select */}
-            {/* <Select
-              options={[
-                { value: '', label: 'Tous les statuts' },
-                { value: INSPECTION_STATUS.ACCEPTED, label: 'Accepté' },
-                { value: INSPECTION_STATUS.WARNING, label: 'Avertissement' },
-                { value: INSPECTION_STATUS.REJECTED, label: 'Rejeté' },
-              ]}
-              value={filters.status || ''}
-              onChange={(e) => updateFilters({ status: e.target.value as any || undefined })}
-              className="w-full"
-            /> */}
 
             {/* Reset */}
             {(filters.variety || filters.status || searchQuery) && (

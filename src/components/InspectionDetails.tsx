@@ -18,6 +18,7 @@ import { Card, CardHeader, Input, Button, Badge } from './ui';
 import { DEFAULT_SAMPLE_SIZE } from '../constants';
 import { Inspection, InspectionStatus, DefectEntry, SampleEntry } from '../types';
 import { uploadPhotos } from '../api';
+import { printInspectionReport } from './PrintReport';
 
 interface InspectionDetailsProps {
   id: string;
@@ -69,7 +70,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
   const [newDefectName, setNewDefectName] = useState('');
   const [showAddDefect, setShowAddDefect] = useState(false);
 
-  // Load existing data
   useEffect(() => {
     if (isEditMode && existingInspection) {
       if (existingInspection.inspectionSampleSize) setSampleSize(existingInspection.inspectionSampleSize);
@@ -84,11 +84,7 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
     return sampleSize > 0 ? (units / sampleSize) * 100 : 0;
   };
 
-  const handleDefectChange = (
-    defectId: string,
-    value: number,
-    isSerious: boolean
-  ) => {
+  const handleDefectChange = (defectId: string, value: number, isSerious: boolean) => {
     const updater = (defects: DefectEntry[]) =>
       defects.map(d =>
         d.id === defectId
@@ -105,7 +101,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
 
   const handleSampleSizeChange = (newSize: number) => {
     setSampleSize(newSize);
-    // Recalculate all percentages
     const recalculate = (defects: DefectEntry[]) =>
       defects.map(d => ({ ...d, percentage: (d.units / newSize) * 100 }));
     
@@ -166,7 +161,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       const fileArray: File[] = Array.from(files);
-      // Determine the inspection ID (existing or future)
       const inspectionId = isEditMode && existingInspection ? existingInspection.id : (pendingInspectionId || Date.now().toString());
       if (!isEditMode) setPendingInspectionId(inspectionId);
       
@@ -175,7 +169,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         setPhotos(prev => [...prev, ...paths]);
         toast.success(`${files.length} photo(s) ajoutée(s)`);
       } catch {
-        // Fallback to base64 if server is not available
         fileArray.forEach((file: File) => {
           const reader = new FileReader();
           reader.onloadend = () => {
@@ -199,6 +192,19 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
   const totalDefects = totalSeriousDefects + totalNonSeriousDefects;
   const totalPercentage = totalSeriousPercentage + totalNonSeriousPercentage;
 
+  const calculateQualityScore = () => {
+    return Math.max(0, 100 - (totalSeriousPercentage * 2 + totalNonSeriousPercentage));
+  };
+
+  const calculateStatus = (): InspectionStatus => {
+    if (totalSeriousPercentage > 0) return 'Rejeté';
+    if (totalPercentage > 10) return 'Avertissement';
+    return 'Accepté';
+  };
+
+  const qualityScore = calculateQualityScore();
+  const status = calculateStatus();
+
   const handleSaveInspection = () => {
     const section2Data: Partial<Inspection> = {
       inspectionSampleSize: sampleSize,
@@ -206,13 +212,14 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
       nonSeriousDefects,
       samples,
       photos,
+      qualityScore,
+      status,
     };
 
     if (isEditMode && existingInspection) {
       updateInspection(id, section2Data);
       setCurrentView('inspections');
     } else {
-      // New inspection: combine basic info from localStorage + section 2
       const basicInfoStr = localStorage.getItem('inspectionBasicInfo');
       const basicInfo = basicInfoStr ? JSON.parse(basicInfoStr) : {};
       const newInspection: Inspection = {
@@ -222,9 +229,9 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         grower: basicInfo.grower || '',
         inspector: basicInfo.inspectedBy || '',
         date: basicInfo.receiveDate || new Date().toISOString().split('T')[0],
-        status: (basicInfo.status || 'Accepté') as InspectionStatus,
+        status,
         image: 'https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&q=80&w=800',
-        qualityScore: 85,
+        qualityScore,
         sampleSize: basicInfo.sampleSize ? parseInt(basicInfo.sampleSize) : 100,
         lotNumber: basicInfo.lotNumber || '',
         facility: basicInfo.facility || '',
@@ -242,7 +249,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
 
   return (
     <div className="max-w-6xl mx-auto pb-12 md:pb-20">
-      {/* Back button */}
       <button
         onClick={() => setCurrentView(isEditMode ? 'inspections' : 'create')}
         className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-primary transition-colors mb-6"
@@ -251,7 +257,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         {isEditMode ? 'Retour aux inspections' : 'Retour à la section 1'}
       </button>
 
-      {/* Page Header - same style as Section 1 */}
       <div className="flex items-start justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-3 mb-2">
@@ -266,9 +271,14 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
             Analyse détaillée des défauts critiques et graves
           </p>
         </div>
+        <div className="text-right">
+          <div className="text-sm text-slate-500 mb-1">Score de qualité</div>
+          <div className={`text-3xl font-black ${qualityScore >= 80 ? 'text-emerald-600' : qualityScore >= 60 ? 'text-amber-600' : 'text-red-600'}`}>
+            {qualityScore.toFixed(0)}
+          </div>
+        </div>
       </div>
 
-      {/* Sample Size - styled like Section 1 form card */}
       <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
         <div className="bg-linear-to-r from-primary/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center gap-3">
@@ -293,7 +303,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         </div>
       </Card>
 
-      {/* Serious Defects - styled like Section 1 form card */}
       <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
         <div className="bg-linear-to-r from-red-500/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center gap-3">
@@ -329,7 +338,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         </div>
       </Card>
 
-      {/* Non-Serious Defects - styled like Section 1 form card */}
       <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
         <div className="bg-linear-to-r from-amber-500/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center justify-between">
@@ -415,7 +423,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         </div>
       </Card>
 
-      {/* Samples Section - styled like Section 1 form card */}
       <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
         <div className="bg-linear-to-r from-primary/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center justify-between">
@@ -454,7 +461,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         </div>
       </Card>
 
-      {/* Photos Section - styled like Section 1 form card */}
       <Card padding="none" className="overflow-hidden mb-6 md:mb-8">
         <div className="bg-linear-to-r from-primary/5 to-transparent p-4 md:p-8 border-b border-slate-100">
           <div className="flex items-center gap-3">
@@ -484,7 +490,7 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
             </label>
             
             {photos.map((photo, index) => (
-              <div key={index} className="relative aspect-square rounded-lg overflow-hidden border border-slate-200 group">
+              <div key={index} className=" relative aspect-square rounded-lg overflow-hidden border border-slate-200 group">
                 <img src={photo} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
                 <button
                   onClick={() => removePhoto(index)}
@@ -498,12 +504,31 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
         </div>
       </Card>
 
-      {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
         <Button
           variant="secondary"
           icon={<Printer className="size-5" />}
           className="w-full sm:w-auto"
+          onClick={() => {
+            const inspection: Inspection = {
+              id: pendingInspectionId || Date.now().toString(),
+              variety: '',
+              commodity: '',
+              grower: '',
+              inspector: '',
+              date: new Date().toISOString().split('T')[0],
+              status,
+              image: 'https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&q=80&w=800',
+              qualityScore,
+              sampleSize: sampleSize,
+              inspectionSampleSize: sampleSize,
+              seriousDefects,
+              nonSeriousDefects,
+              samples,
+              photos,
+            };
+            printInspectionReport(inspection);
+          }}
         >
           Imprimer l'étiquette
         </Button>
@@ -520,7 +545,6 @@ export const InspectionDetails: React.FC<InspectionDetailsProps> = ({ id }) => {
   );
 };
 
-// Sub-components
 const DefectRow: React.FC<{
   defect: DefectEntry;
   sampleSize: number;

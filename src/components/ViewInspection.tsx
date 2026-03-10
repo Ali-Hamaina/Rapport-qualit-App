@@ -124,7 +124,7 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
                 {inspection.commodity}
               </h1>
               <p className="text-white/80 text-sm">
-                Lot #{inspection.id} &bull; {inspection.variety}
+                Lot #{inspection.id} • {inspection.variety}
               </p>
             </div>
             {inspection.qualityScore !== undefined && (
@@ -154,18 +154,25 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* General Info */}
-          <Card padding="none">
-            <CardHeader title="Informations générales" icon={<Package className="size-5 text-primary" />} />
-            <div className="px-6 pb-6 space-y-4">
+          <Card padding="none" className="overflow-hidden">
+            <div className="bg-linear-to-r from-primary/5 to-transparent p-6 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Package className="size-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">Informations générales</h3>
+                  <p className="text-xs text-slate-500">Détails généraux</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 space-y-4">
               <InfoRow icon={<Package className="size-4" />} label="Commodity" value={inspection.commodity} />
               <InfoRow icon={<Leaf className="size-4" />} label="Variété" value={inspection.variety} />
               <InfoRow icon={<User className="size-4" />} label="Producteur" value={inspection.grower} />
               <InfoRow icon={<User className="size-4" />} label="Inspecteur" value={inspection.inspector} />
               {inspection.facility && (
                 <InfoRow icon={<MapPin className="size-4" />} label="Établissement" value={inspection.facility} />
-              )}
-              {inspection.lotNumber && (
-                <InfoRow icon={<Package className="size-4" />} label="Batch Number" value={inspection.lotNumber} />
               )}
               {inspection.batchNumber && (
                 <InfoRow icon={<Package className="size-4" />} label="Batch Number" value={inspection.batchNumber} />
@@ -177,9 +184,19 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
           </Card>
 
           {/* Dates & Quantities */}
-          <Card padding="none">
-            <CardHeader title="Dates et quantités" icon={<Calendar className="size-5 text-primary" />} />
-            <div className="px-6 pb-6 space-y-4">
+          <Card padding="none" className="overflow-hidden">
+            <div className="bg-linear-to-r from-primary/5 to-transparent p-6 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Calendar className="size-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">Dates et quantités</h3>
+                  <p className="text-xs text-slate-500">Informations temporelles</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 space-y-4">
               <InfoRow icon={<Calendar className="size-4" />} label="Date d'inspection" value={formatDate(inspection.date)} />
               {inspection.packDate && (
                 <InfoRow icon={<Calendar className="size-4" />} label="Date d'emballage" value={formatDate(inspection.packDate)} />
@@ -193,33 +210,31 @@ export const ViewInspection: React.FC<ViewInspectionProps> = ({ id }) => {
               {inspection.sampleSize && (
                 <InfoRow icon={<Ruler className="size-4" />} label="Taille échantillon" value={`${inspection.sampleSize} unités`} />
               )}
+              {inspection.qualityScore !== undefined && (
+                <div className="mt-4 pt-4 border-t border-slate-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Score de qualité</p>
+                    <span className={cn(
+                      "text-lg font-black",
+                      inspection.qualityScore >= 80 ? "text-emerald-600" :
+                      inspection.qualityScore >= 60 ? "text-amber-600" : "text-red-600"
+                    )}>
+                      {inspection.qualityScore}/100
+                    </span>
+                  </div>
+                  <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden">
+                    <div
+                      className={cn(
+                        "h-full rounded-full transition-all duration-700",
+                        inspection.qualityScore >= 80 ? "bg-emerald-500" :
+                        inspection.qualityScore >= 60 ? "bg-amber-500" : "bg-red-500"
+                      )}
+                      style={{ width: `${inspection.qualityScore}%` }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-
-            {/* Quality Score Bar */}
-            {inspection.qualityScore !== undefined && (
-              <div className="mx-6 mb-6 p-4 bg-slate-50 rounded-xl">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Score de qualité</p>
-                  <span className={cn(
-                    "text-lg font-black",
-                    inspection.qualityScore >= 80 ? "text-emerald-600" :
-                    inspection.qualityScore >= 60 ? "text-amber-600" : "text-red-600"
-                  )}>
-                    {inspection.qualityScore}/100
-                  </span>
-                </div>
-                <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden">
-                  <div
-                    className={cn(
-                      "h-full rounded-full transition-all duration-700",
-                      inspection.qualityScore >= 80 ? "bg-emerald-500" :
-                      inspection.qualityScore >= 60 ? "bg-amber-500" : "bg-red-500"
-                    )}
-                    style={{ width: `${inspection.qualityScore}%` }}
-                  />
-                </div>
-              </div>
-            )}
           </Card>
         </div>
       </div>

@@ -133,6 +133,12 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
       return;
     }
 
+    const data = buildInspectionFromForm();
+
+    if (isEditMode && editId) {
+      updateInspection(editId, data);
+    }
+
     localStorage.setItem('inspectionBasicInfo', JSON.stringify(formData));
     setSelectedInspectionId(isEditMode ? editId! : 'new');
     setCurrentView('details');
@@ -328,21 +334,7 @@ export const CreateInspection: React.FC<CreateInspectionProps> = ({ editId }) =>
                 onChange={(e) => handleChange('status', e.target.value)}
               />
 
-              <Input
-                label="Batch Number"
-                value={formData.lotNumber}
-                onChange={(e) => handleChange('lotNumber', e.target.value)}
-                placeholder="ex: V-OR-2023-X92"
-              />
-
-              <Input
-                label="Taille échantillon"
-                type="number"
-                value={formData.sampleSize}
-                onChange={(e) => handleChange('sampleSize', e.target.value)}
-                placeholder="100"
-                min="1"
-              />
+            
             </>
           )}
         </div>
